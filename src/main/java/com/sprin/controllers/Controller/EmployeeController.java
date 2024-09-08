@@ -3,9 +3,15 @@ package com.sprin.controllers.Controller;
 import com.sprin.controllers.Entity.Employee;
 import com.sprin.controllers.Exceptions.EmployeeNotFoundException;
 import com.sprin.controllers.Repository.EmployeeRepository;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 public class EmployeeController {
@@ -18,8 +24,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> all() {
-        return repository.findAll();
+    public CollectionModel<EntityModel<Employee>> all() {
+
+        List<EntityModel<Employee>> employees = repository.findAll().stream()
+            .map(employee -> EntityModel.of(employee,
+                linkTo(methodOn(EmployeeController.class).one(employee.getId())).withSelfRel(),
+                linkTo(methodOn(EmployeeController.class).all()).withRel("employees"))).collect(Collectors.toList());
+
+        return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
+
     };
 
     @PostMapping("/employees")
@@ -28,8 +41,14 @@ public class EmployeeController {
     };
 
     @GetMapping("/employees/{id}")
-    public Employee one(@PathVariable Long id){
-        return repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+    public EntityModel<Employee> one(@PathVariable Long id){
+
+        Employee employee = repository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
+
+        return EntityModel.of(employee,
+            linkTo(methodOn(EmployeeController.class).one(id)).withSelfRel(),
+            linkTo(methodOn(EmployeeController.class).all()).withRel("employees"));
     }
 
     @PutMapping("/employees/{id}")
