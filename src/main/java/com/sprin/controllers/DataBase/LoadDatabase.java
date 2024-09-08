@@ -20,10 +20,10 @@ public class LoadDatabase {
 
         return args -> {
             log.info("Preloading "
-                    + repository.save(new Employee("Bilbo Baggins",
+                    + repository.save(new Employee("Bilbo", "Baggins",
                     "burglar")));
             log.info("Preloadin "
-                    + repository.save(new Employee("Frodo Baggins",
+                    + repository.save(new Employee("Frodo", "Baggins",
                     "thief")));
 
         };
