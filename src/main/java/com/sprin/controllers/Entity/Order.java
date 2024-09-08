@@ -1,10 +1,10 @@
 package com.sprin.controllers.Entity;
 
+import com.sprin.controllers.StatusEnum.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.transaction.Status;
 
 import java.util.Objects;
 
@@ -16,11 +16,11 @@ public class Order {
 
     private String description;
 
-    private Status status;
+    private com.sprin.controllers.StatusEnum.Status status;
 
-    Order(){}
+    public Order(){}
 
-    Order(String description, Status status){
+    public Order(String description, Status status){
         this.description = description;
         this.status = status;
     }
