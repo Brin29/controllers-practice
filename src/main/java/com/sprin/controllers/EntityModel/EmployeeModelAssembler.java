@@ -14,8 +14,11 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
 
     @Override
     public EntityModel<Employee> toModel(Employee employee) {
+        // EntityModel = convierte employee en un EnityModel que contiene los enlaces
         return EntityModel.of(employee,
+                // Un enlace a si mismo
                 linkTo(methodOn(EmployeeController.class).one(employee.getId())).withSelfRel(),
+                // Un enlace a empleados
                 linkTo(methodOn(EmployeeController.class).all()).withRel("employees"));
     }
 }

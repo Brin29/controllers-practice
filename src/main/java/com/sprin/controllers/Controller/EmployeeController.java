@@ -29,6 +29,7 @@ public class EmployeeController {
         this.assembler = assembler;
     }
 
+    // CollectionModel = es un contenedor de hateos
     @GetMapping("/employees")
     public CollectionModel<EntityModel<Employee>> all() {
 
@@ -45,8 +46,9 @@ public class EmployeeController {
     public ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee){
 
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
-
+        // ResponseEntity = permite construir una respuesta HTTP
         return ResponseEntity
+                // Created = estado 201 de creacion
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     };

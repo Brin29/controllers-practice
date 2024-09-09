@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoadDatabase {
 
+    // LoadDatabase = hace referencia a la clase
+    // Imprimir mensajes en la consola
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
     private final EmployeeRepository employeeRepository;
 
@@ -22,6 +24,8 @@ public class LoadDatabase {
         this.employeeRepository = employeeRepository;
     }
 
+    // CommandLineRunner = ejecutar el codigo despues que la aplicacion corrio
+    // initDatabase = se inicializan los datos de la base de datos
     // Encapsular y proporcionar servicios o funcionalidades a otros componentes
     @Bean
     CommandLineRunner initDatabase(EmployeeRepository repository, OrderRepository orderRepository) {
